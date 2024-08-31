@@ -2,6 +2,10 @@
 #Thank you for trying CS_AddOnOrganizer!#
 #---------------------------------------#
 
+#-Version: 1.2-#
+ Fixed profiles, they now properly saved between sessions.
+ Simplified color coding of Enabled/Disabled buttons
+ 
 #-Version: 1.1011-#
 
 #-Features:-#

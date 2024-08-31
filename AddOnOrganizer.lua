@@ -12,23 +12,81 @@ local id;
 local CS_AddOnOrganizer_AddOnList = {};
 
 function CS_AddOnOrganizer_OnLoad()
-	this:RegisterEvent("PLAYER_LOGIN"); 
-	this:RegisterEvent("PLAYER_LOGOUT");
+	this:RegisterEvent("VARIABLES_LOADED"); 
 	
 	tinsert(UISpecialFrames,"CS_AddOnOrganizer_List");
 	
-	
+	getglobal("CS_AddOnOrganizer_List"):SetFrameStrata("FULLSCREEN")
+	getglobal("CS_AddOnOrganizer_List"):SetClampedToScreen(true)
+	getglobal("CS_AddOnOrganizer_List_Profiles"):SetFrameStrata("FULLSCREEN")
 	SLASH_CS_ADDONORGANIZER1 = "/aoo";
 	SlashCmdList["CS_ADDONORGANIZER"] = function(msg)
 		CS_AddOnOrganizer_ListShowHide();
 	end
 
 end
+function CS_AddOnOrganizer_SaveProfile()
 
-function CS_AddOnOrganizer_OnEvent(event)
-	if(event == "PLAYER_LOGIN")then
-		--DEFAULT_CHAT_FRAME:AddMessage("|CFFFFFFFFCS_AddOnOrganizer|r |CFF00FF00Loaded|r");
-		--CS_AddOnOrganizer_Profiles = {[1] = {"Default (Only CS_AddOnOrganizer)","CS_AddOnOrganizer",},};
+	local ProfileName = SaveProfileEditBox:GetText();
+	local newKey;
+	local found = false;
+	
+	if(not(ProfileName == "")) then
+		
+		newKey = table.getn(CS_AddOnOrganizer_Profiles) + 1;
+		
+		for i=1, table.getn(CS_AddOnOrganizer_Profiles) do
+			if (CS_AddOnOrganizer_Profiles[i][1] == ProfileName) then
+				newKey = i;				
+				found = true;
+			end
+		end
+		
+		if(not(found))then
+			CS_AddOnOrganizer_Profiles[newKey] = {[1] = SaveProfileEditBox:GetText()};
+			DEFAULT_CHAT_FRAME:AddMessage("|CFF00FF00CS_AddOnOrganizer|r - |CFFFFFFFF"..SaveProfileEditBox:GetText().."|r has been |CFF00FF00ADDED|r to profiles list!");
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("|CFF00FF00CS_AddOnOrganizer|r - |CFFFFFFFF"..SaveProfileEditBox:GetText().."|r has been |CFF00FF00MODIFIED|r in the profiles list!");
+		end
+		
+		local numaddons = GetNumAddOns();
+		local j=2;
+		for i=1, numaddons, 1 do
+			if(CS_AddOnOrganizer_AddOnList[i] == 1) then
+				CS_AddOnOrganizer_Profiles[newKey][j] = GetAddOnInfo(i);
+				j = j+1;
+			end		
+		end
+		
+	else
+		DEFAULT_CHAT_FRAME:AddMessage("|CFF00FF00CS_AddOnOrganizer|r - |CFFFF0000You have to write a name for the profile!|r");
+	end
+end
+
+function CS_AddOnOrganizer_LoadProfile()
+	UIDropDownMenu_SetSelectedID(ProfilesDropDown, this:GetID());
+	CS_AddOnOrganizer_DisableAll();
+	local i;
+	local numaddons = GetNumAddOns();
+	id = this:GetID();
+	for j=2,table.getn(CS_AddOnOrganizer_Profiles[this:GetID()]) do
+		local loadname = CS_AddOnOrganizer_Profiles[this:GetID()][j];
+		for i=1, numaddons, 1 do
+			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
+			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
+			if (name == loadname) then
+				CS_AddOnOrganizer_AddOnList[i] = 1;
+			end
+		end
+	end
+	CS_AddOnOrganizer_List_Update();
+	SaveProfileEditBox:SetText(CS_AddOnOrganizer_Profiles[this:GetID()][1]);
+end
+
+function CS_AddOnOrganizer_OnEvent()
+	if ( event == "VARIABLES_LOADED" ) then
+		DEFAULT_CHAT_FRAME:AddMessage("|CFFFFFFFFCS_AddOnOrganizer|r |CFF00FF00Loaded|r");
+		CS_AddOnOrganizer_Profiles_ProfilesDropDown_OnLoad()
 	end
 end
 
@@ -69,7 +127,7 @@ function CS_AddOnOrganizer_List_Update()
 			local addonLogTitle = getglobal("CS_AddOnOrganizer_List_Title"..i);
 			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
 			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex);
-			
+
 			addonLogTitle:SetText(title);
 			addonLogTitle:SetNormalTexture("");
 			
@@ -83,7 +141,7 @@ function CS_AddOnOrganizer_List_Update()
 			if(CS_AddOnOrganizer_AddOnList[addonIndex] == 1) then
 				addonTitleTag:SetText("Enabled");
 				if(enabled)then
-					addonTitleTag:SetTextColor(1.0,0.7,0.0);
+					addonTitleTag:SetTextColor(0.0,1.0,0.0);
 				else
 					addonTitleTag:SetTextColor(0.0,1.0,0.0);
 				end
@@ -92,7 +150,7 @@ function CS_AddOnOrganizer_List_Update()
 				if(not enabled)then
 					addonTitleTag:SetTextColor(1.0,0.7,0.0);
 				else
-					addonTitleTag:SetTextColor(1.0,0.0,0.0);
+					addonTitleTag:SetTextColor(1.0,0.7,0.0);
 				end
 			end
 			
@@ -116,13 +174,13 @@ function CS_AddOnOrganizer_TitleButton_OnClick()
 		if(not enabled)then
 			addonTitleTag:SetTextColor(1.0,0.7,0.0);
 		else
-			addonTitleTag:SetTextColor(1.0,0.0,0.0);
+			addonTitleTag:SetTextColor(1.0,0.7,0.0);
 		end
 		CS_AddOnOrganizer_AddOnList[AddOnID] = 0;
 	else
 		addonTitleTag:SetText("Enabled");
 		if(enabled)then
-			addonTitleTag:SetTextColor(1.0,0.7,0.0);
+			addonTitleTag:SetTextColor(0.0,1.0,0.0);
 		else
 			addonTitleTag:SetTextColor(0.0,1.0,0.0);
 		end
@@ -196,11 +254,7 @@ function CS_AddOnOrganizer_EnableAll()
 			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
 			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
 			addonTitleTag:SetText("Enabled");
-			if(enabled)then
-				addonTitleTag:SetTextColor(1.0,0.7,0.0);
-			else
-				addonTitleTag:SetTextColor(0.0,1.0,0.0);
-			end
+			addonTitleTag:SetTextColor(0.0,1.0,0.0);
 		end
 	end
 end
@@ -215,11 +269,7 @@ function CS_AddOnOrganizer_DisableAll()
 			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
 			
 			addonTitleTag:SetText("Disabled");
-			if(not enabled)then
-				addonTitleTag:SetTextColor(1.0,0.7,0.0);
-			else
-				addonTitleTag:SetTextColor(1.0,0.0,0.0);
-			end
+			addonTitleTag:SetTextColor(1.0,0.7,0.0);
 		end
 	end
 end
@@ -233,10 +283,8 @@ function CS_AddOnOrganizer_ProfilesShowHide()
 end
 
 function CS_AddOnOrganizer_Profiles_ProfilesDropDown_OnLoad()
-	UIDropDownMenu_SetWidth(220);
-	UIDropDownMenu_Initialize(this,CS_AddOnOrganizer_InitializeDropDown);
-	--DEFAULT_CHAT_FRAME:AddMessage(table.getn(CS_AddOnOrganizer_Profiles));
-
+	UIDropDownMenu_SetWidth(220,getglobal("ProfilesDropDown"));
+	UIDropDownMenu_Initialize(getglobal("ProfilesDropDown"),CS_AddOnOrganizer_InitializeDropDown);
 end
 
 function CS_AddOnOrganizer_InitializeDropDown()
@@ -246,63 +294,6 @@ function CS_AddOnOrganizer_InitializeDropDown()
 		info.text = CS_AddOnOrganizer_Profiles[i][1];
 		info.func = CS_AddOnOrganizer_LoadProfile;
 		UIDropDownMenu_AddButton(info);
-	end
-end
-
-function CS_AddOnOrganizer_LoadProfile()
-	UIDropDownMenu_SetSelectedID(ProfilesDropDown, this:GetID());
-	CS_AddOnOrganizer_DisableAll();
-	local i;
-	local numaddons = GetNumAddOns();
-	id = this:GetID();
-	for j=2,table.getn(CS_AddOnOrganizer_Profiles[this:GetID()]) do
-		local loadname = CS_AddOnOrganizer_Profiles[this:GetID()][j];
-		for i=1, numaddons, 1 do
-			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
-			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
-			if (name == loadname) then
-				CS_AddOnOrganizer_AddOnList[i] = 1;
-			end
-		end
-	end
-	CS_AddOnOrganizer_List_Update();
-	SaveProfileEditBox:SetText(CS_AddOnOrganizer_Profiles[this:GetID()][1]);
-end
-
-function CS_AddOnOrganizer_SaveProfile()
-	local i,j;
-	local ProfileText = SaveProfileEditBox:GetText();
-	local newKey;
-	local found = false;
-	
-	if(not(ProfileText == "")) then
-		
-		newKey = table.getn(CS_AddOnOrganizer_Profiles) + 1;
-		
-		for i=1, table.getn(CS_AddOnOrganizer_Profiles) do
-			if (CS_AddOnOrganizer_Profiles[i][1] == ProfileText) then
-				newKey = i;				
-				found = true;
-			end
-		end
-		
-		if(not(found))then
-			CS_AddOnOrganizer_Profiles[newKey] = {[1] = SaveProfileEditBox:GetText()};
-			DEFAULT_CHAT_FRAME:AddMessage("|CFF00FF00CS_AddOnOrganizer|r - |CFFFFFFFF"..SaveProfileEditBox:GetText().."|r has been |CFF00FF00ADDED|r to profiles list!");
-		else
-			DEFAULT_CHAT_FRAME:AddMessage("|CFF00FF00CS_AddOnOrganizer|r - |CFFFFFFFF"..SaveProfileEditBox:GetText().."|r has been |CFF00FF00MODIFIED|r in the profiles list!");
-		end
-		
-		local numaddons = GetNumAddOns();
-		j=2;
-		for i=1, numaddons, 1 do
-			if(CS_AddOnOrganizer_AddOnList[i] == 1) then
-				CS_AddOnOrganizer_Profiles[newKey][j] = GetAddOnInfo(i);
-				j = j+1;
-			end		
-		end
-	else
-		DEFAULT_CHAT_FRAME:AddMessage("|CFF00FF00CS_AddOnOrganizer|r - |CFFFF0000You have to write a name for the profile!|r");
 	end
 end
 
