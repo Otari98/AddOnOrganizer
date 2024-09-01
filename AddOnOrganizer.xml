@@ -5,7 +5,7 @@
 			<AbsDimension x="300" y="16"/>
 		</Size>
 		<Layers>
-			<Layer level="BACKGROUND">
+			<Layer level="DIALOG">
 				<FontString name="$parentTag" inherits="GameFontNormal" justifyH="RIGHT">
 					<Size>
 						<AbsDimension x="80" y="16"/>
@@ -36,7 +36,7 @@
 		</Scripts>
 		<NormalText name="$parentNormalText" inherits="GameFontNormal" justifyH="LEFT" nonspacewrap="true">
 			<Size>
-				<AbsDimension x="275" y="10"/>
+				<AbsDimension x="240" y="10"/>
 			</Size>
 			<Anchors>
 				<Anchor point="LEFT">
@@ -323,8 +323,9 @@
 						</Layer>
 					</Layers>
 					<Scripts>
-						<OnLoad>CS_AddOnOrganizer_Profiles_ProfilesDropDown_OnLoad()</OnLoad>
-						<OnShow>CS_AddOnOrganizer_Profiles_ProfilesDropDown_OnLoad()</OnShow>
+						<OnShow>
+							CS_AddOnOrganizer_Profiles_ProfilesDropDown_OnLoad()
+						</OnShow>
 					</Scripts>
 				</Frame>
 				<Button name="SaveProfile" inherits="UIPanelButtonTemplate" text="Save">
@@ -544,7 +545,7 @@
 					<Anchor point="TOPLEFT"/>
 				</Anchors>
 				<Layers>
-					<Layer level="ARTWORK">
+					<Layer level="HIGHLIGHT">
 						<Texture name="$parent_SkillHighlight" file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alphaMode="ADD"/>
 					</Layer>
 				</Layers>

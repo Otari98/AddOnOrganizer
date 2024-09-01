@@ -4,7 +4,7 @@
 CS_ADDONORGANIZER_ADDONS_DISPLAYED = 22;
 CS_ADDONORGANIZER_ADDONSLINE_HEIGHT = 16;
 CS_AddOnOrganizer_Profiles = {};
-CS_ADDONORGANIZER_VERSIONNUMBER = "1.1011";
+CS_ADDONORGANIZER_VERSIONNUMBER = "1.2";
 BINDING_HEADER_CS_ADDONORGANIZER_SEP = "AddOnOrganizer";
 BINDING_NAME_CS_ADDONORGANIZER_CONFIG = "Show / Hide";
 
@@ -140,18 +140,10 @@ function CS_AddOnOrganizer_List_Update()
 			
 			if(CS_AddOnOrganizer_AddOnList[addonIndex] == 1) then
 				addonTitleTag:SetText("Enabled");
-				if(enabled)then
-					addonTitleTag:SetTextColor(0.0,1.0,0.0);
-				else
-					addonTitleTag:SetTextColor(0.0,1.0,0.0);
-				end
+				addonTitleTag:SetTextColor(0.0,1.0,0.0);
 			else
 				addonTitleTag:SetText("Disabled");
-				if(not enabled)then
-					addonTitleTag:SetTextColor(1.0,0.7,0.0);
-				else
-					addonTitleTag:SetTextColor(1.0,0.7,0.0);
-				end
+				addonTitleTag:SetTextColor(1.0,0.7,0.0);
 			end
 			
 			addonLogTitle:SetTextColor(color.r, color.g, color.b);
@@ -168,22 +160,14 @@ function CS_AddOnOrganizer_TitleButton_OnClick()
 	local buttonID = this:GetID();
 	local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..buttonID.."Tag");
 	local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(AddOnID);
-	
+
 	if(CS_AddOnOrganizer_AddOnList[AddOnID] == 1) then
 		addonTitleTag:SetText("Disabled");
-		if(not enabled)then
-			addonTitleTag:SetTextColor(1.0,0.7,0.0);
-		else
-			addonTitleTag:SetTextColor(1.0,0.7,0.0);
-		end
+		addonTitleTag:SetTextColor(1.0,0.7,0.0);
 		CS_AddOnOrganizer_AddOnList[AddOnID] = 0;
 	else
 		addonTitleTag:SetText("Enabled");
-		if(enabled)then
-			addonTitleTag:SetTextColor(0.0,1.0,0.0);
-		else
-			addonTitleTag:SetTextColor(0.0,1.0,0.0);
-		end
+		addonTitleTag:SetTextColor(0.0,1.0,0.0);
 		CS_AddOnOrganizer_AddOnList[AddOnID] = 1;
 	end
 end
@@ -193,7 +177,7 @@ function CS_AddOnOrganizer_TitleButton_OnEnter()
 	local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(buttonID);
 	local dependencies = GetAddOnDependencies(buttonID);
 	local loadondemand = IsAddOnLoadOnDemand(buttonID);
-	
+
 	--DEFAULT_CHAT_FRAME:AddMessage(buttonID);
 	if (title == nil) then
 		title = "No Title";
