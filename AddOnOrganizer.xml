@@ -4,6 +4,8 @@
 		<Size>
 			<AbsDimension x="300" y="16"/>
 		</Size>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+		</Backdrop>
 		<Layers>
 			<Layer level="DIALOG">
 				<FontString name="$parentTag" inherits="GameFontNormal" justifyH="RIGHT">
@@ -23,6 +25,7 @@
 		<Scripts>
 			<OnLoad>
 				this:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+				this:SetBackdropColor(1, 1, 1, .1)
 			</OnLoad>
 			<OnClick>
 				CS_AddOnOrganizer_TitleButton_OnClick();
@@ -31,6 +34,7 @@
 				CS_AddOnOrganizer_TitleButton_OnEnter();
 			</OnEnter>
 			<OnLeave>
+				CS_AddOnOrganizer_TitleButton_OnLeave();
 				GameTooltip:Hide();
 			</OnLeave>
 		</Scripts>
@@ -98,9 +102,9 @@
 			<AbsDimension x="384" y="512"/>
 		</Size>
 		<Anchors>
-			<Anchor point="TOPLEFT">
+			<Anchor point="CENTER">
 				<Offset>
-					<AbsDimension x="0" y="-104"/>
+					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>

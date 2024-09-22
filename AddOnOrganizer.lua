@@ -4,7 +4,7 @@
 CS_ADDONORGANIZER_ADDONS_DISPLAYED = 22;
 CS_ADDONORGANIZER_ADDONSLINE_HEIGHT = 16;
 CS_AddOnOrganizer_Profiles = {};
-CS_ADDONORGANIZER_VERSIONNUMBER = "1.2";
+CS_ADDONORGANIZER_VERSIONNUMBER = "1.3";
 BINDING_HEADER_CS_ADDONORGANIZER_SEP = "AddOnOrganizer";
 BINDING_NAME_CS_ADDONORGANIZER_CONFIG = "Show / Hide";
 
@@ -66,14 +66,12 @@ end
 function CS_AddOnOrganizer_LoadProfile()
 	UIDropDownMenu_SetSelectedID(ProfilesDropDown, this:GetID());
 	CS_AddOnOrganizer_DisableAll();
-	local i;
 	local numaddons = GetNumAddOns();
 	id = this:GetID();
 	for j=2,table.getn(CS_AddOnOrganizer_Profiles[this:GetID()]) do
 		local loadname = CS_AddOnOrganizer_Profiles[this:GetID()][j];
 		for i=1, numaddons, 1 do
 			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
-			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
 			if (name == loadname) then
 				CS_AddOnOrganizer_AddOnList[i] = 1;
 			end
@@ -104,7 +102,6 @@ function CS_AddOnOrganizer_ListShowHide()
 end
 
 function CS_AddOnOrganizer_GetList()
-	local i;
 	for i=1, GetNumAddOns(), 1 do
 		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
 		CS_AddOnOrganizer_AddOnList[i] = enabled;
@@ -114,7 +111,6 @@ end
 
 function CS_AddOnOrganizer_List_Update()
 	local numaddons = GetNumAddOns();
-	local i;
 	CS_AddOnOrganizer_List_AddOnCount:SetText("AddOns: |CFFFFFFFF"..numaddons.."|r");
 	CS_AddOnOrganizer_List_CountMiddle:SetWidth(CS_AddOnOrganizer_List_AddOnCount:GetWidth());
 
@@ -127,17 +123,10 @@ function CS_AddOnOrganizer_List_Update()
 			local addonLogTitle = getglobal("CS_AddOnOrganizer_List_Title"..i);
 			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
 			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex);
-
+			
 			addonLogTitle:SetText(title);
 			addonLogTitle:SetNormalTexture("");
-			
-			local color = {r=0.7,g=0.7,b=0.7};
-			if(enabled and loadable)then
-				color = {r=1.0,g=1.0,b=0.5};
-			elseif(enabled and not loadable)then
-				color = {r=1.0,g=0.0,b=0.0};
-			end
-			
+
 			if(CS_AddOnOrganizer_AddOnList[addonIndex] == 1) then
 				addonTitleTag:SetText("Enabled");
 				addonTitleTag:SetTextColor(0.0,1.0,0.0);
@@ -145,12 +134,15 @@ function CS_AddOnOrganizer_List_Update()
 				addonTitleTag:SetText("Disabled");
 				addonTitleTag:SetTextColor(1.0,0.7,0.0);
 			end
-			
-			addonLogTitle:SetTextColor(color.r, color.g, color.b);
-			addonLogTitle.r = color.r;
-			addonLogTitle.g = color.g;
-			addonLogTitle.b = color.b;
+
 			addonLogTitle:Show();
+
+			local tag_text = addonTitleTag:GetText()
+			if tag_text == "Enabled" and not (enabled and not loadable) then
+				addonLogTitle:SetTextColor(1, 1, .5)
+			else
+				addonLogTitle:SetTextColor(.7, .7, .7)
+			end
 		end
 	end
 end
@@ -159,26 +151,30 @@ function CS_AddOnOrganizer_TitleButton_OnClick()
 	local AddOnID = this:GetID() + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll);
 	local buttonID = this:GetID();
 	local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..buttonID.."Tag");
+	local addonTitle = getglobal("CS_AddOnOrganizer_List_Title"..buttonID)
 	local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(AddOnID);
 
 	if(CS_AddOnOrganizer_AddOnList[AddOnID] == 1) then
 		addonTitleTag:SetText("Disabled");
 		addonTitleTag:SetTextColor(1.0,0.7,0.0);
+		addonTitle:SetTextColor(.7, .7, .7)
 		CS_AddOnOrganizer_AddOnList[AddOnID] = 0;
 	else
 		addonTitleTag:SetText("Enabled");
 		addonTitleTag:SetTextColor(0.0,1.0,0.0);
+		if (enabled and not loadable)then addonTitle:SetTextColor(.7, .7, .7) else addonTitle:SetTextColor(1, 1, .5) end
 		CS_AddOnOrganizer_AddOnList[AddOnID] = 1;
 	end
 end
 
 function CS_AddOnOrganizer_TitleButton_OnEnter()
 	local buttonID = this:GetID() + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll);
+	local button = this:GetID()
 	local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(buttonID);
 	local dependencies = GetAddOnDependencies(buttonID);
 	local loadondemand = IsAddOnLoadOnDemand(buttonID);
-
-	--DEFAULT_CHAT_FRAME:AddMessage(buttonID);
+	getglobal("CS_AddOnOrganizer_List_Title"..button):SetBackdropColor(1, 1, 1, .4)
+	
 	if (title == nil) then
 		title = "No Title";
 	end
@@ -203,12 +199,15 @@ function CS_AddOnOrganizer_TitleButton_OnEnter()
 	end
 end
 
+function CS_AddOnOrganizer_TitleButton_OnLeave()
+	local button = this:GetID()
+	getglobal("CS_AddOnOrganizer_List_Title"..button):SetBackdropColor(1, 1, 1, .1)
+end
+
 function CS_AddOnOrganizer_AcceptButton_OnClick()
-	local i;
 	local numaddons = GetNumAddOns();
 	local IsChanges = 0;
-	local SaveIndex = 1;
-	for i=1, numaddons, 1 do	
+	for i=1, numaddons, 1 do
 		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
 		if(CS_AddOnOrganizer_AddOnList[i] ~= enabled) then
 			if (CS_AddOnOrganizer_AddOnList[i] == 1) then
@@ -230,30 +229,29 @@ function CS_AddOnOrganizer_ReloadUIButton()
 end
 
 function CS_AddOnOrganizer_EnableAll()
-	local i;
 	local numaddons = GetNumAddOns();
 	for i=1, numaddons, 1 do
 		CS_AddOnOrganizer_AddOnList[i] = 1;
 		if( i <= CS_ADDONORGANIZER_ADDONS_DISPLAYED)then
 			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
-			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
+			local addonTitle = getglobal("CS_AddOnOrganizer_List_Title"..i)
 			addonTitleTag:SetText("Enabled");
 			addonTitleTag:SetTextColor(0.0,1.0,0.0);
+			addonTitle:SetTextColor(1, 1, .5)
 		end
 	end
 end
 
 function CS_AddOnOrganizer_DisableAll()
-	local i;
 	local numaddons = GetNumAddOns();
 	for i=1, numaddons, 1 do
 		CS_AddOnOrganizer_AddOnList[i] = 0;
 		if( i <= CS_ADDONORGANIZER_ADDONS_DISPLAYED)then
 			local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title"..i.."Tag");
-			local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
-			
+			local addonTitle = getglobal("CS_AddOnOrganizer_List_Title"..i)
 			addonTitleTag:SetText("Disabled");
 			addonTitleTag:SetTextColor(1.0,0.7,0.0);
+			addonTitle:SetTextColor(.7, .7, .7)
 		end
 	end
 end
