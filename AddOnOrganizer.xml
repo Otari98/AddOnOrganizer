@@ -75,28 +75,26 @@
 			</Anchors>
 		</DisabledText>
 	</Button>
-	
-	  <Button name="GameMenuButtonAddOns" inherits="GameMenuButtonTemplate" text="AddOns" parent="GameMenuFrame">
-    <Anchors>
-      <Anchor point="TOP" relativeTo="GameMenuButtonMacros" relativePoint="BOTTOM">
-        <Offset>
-          <AbsDimension x="0" y="-1"/>
-        </Offset>
-      </Anchor>
-    </Anchors>
-    <Scripts>
-      <OnLoad>
-        GameMenuButtonLogout:SetPoint("TOP",this:GetName(),"BOTTOM",0,-1);
-        GameMenuFrame:SetHeight(GameMenuFrame:GetHeight()+25);
-      </OnLoad>
-      <OnClick>
-        PlaySound("igMainMenuOption");
-        HideUIPanel(GameMenuFrame);
-        CS_AddOnOrganizer_ListShowHide();
-      </OnClick>
-    </Scripts>
-  </Button>
-	
+    <Button name="GameMenuButtonAddOns" inherits="GameMenuButtonTemplate" text="AddOns" parent="GameMenuFrame">
+        <Anchors>
+            <Anchor point="TOP" relativeTo="GameMenuButtonMacros" relativePoint="BOTTOM">
+                <Offset>
+                    <AbsDimension x="0" y="-1"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                GameMenuButtonLogout:SetPoint("TOP",this:GetName(),"BOTTOM",0,-1);
+                GameMenuFrame:SetHeight(GameMenuFrame:GetHeight()+25);
+            </OnLoad>
+            <OnClick>
+                PlaySound("igMainMenuOption");
+                HideUIPanel(GameMenuFrame);
+                CS_AddOnOrganizer_ListShowHide();
+            </OnClick>
+        </Scripts>
+   </Button>
 	<Frame name="CS_AddOnOrganizer_List" enableMouse="true" movable="true" toplevel="true" parent="UIParent" hidden="true">
 		<Size>
 			<AbsDimension x="384" y="512"/>
@@ -130,7 +128,7 @@
 		</Scripts>
 		<Layers>
 			<Layer level="ARTWORK">
-				<FontString name = "$parent_Title" inherits="GameFontNormal">
+				<FontString name="$parent_Title" inherits="GameFontNormal">
 					<Anchors>
 						<Anchor point="TOP">
 							<Offset>
@@ -228,150 +226,147 @@
 			</Layer>
 		</Layers>
 		<Frames>
-		
-		
 			<Frame name="$parent_Profiles" enableMouse="true" toplevel="true" parent="CS_AddOnOrganizer_List" hidden="true">
-			<Size>
-				<AbsDimension x="250" y="125"/>
-			</Size>
-			<Anchors>
-				<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="CS_AddOnOrganizer_List">
-					<Offset>
-						<AbsDimension x="-32" y="-32"/>
-					</Offset>
-				</Anchor>
-			</Anchors>
-			<Backdrop bgFile="Interface\Minimap\TooltipBackdrop-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-				<EdgeSize>
-					<AbsValue val="16"/>
-				</EdgeSize>
-				<TileSize>
-					<AbsValue val="16"/>
-				</TileSize>
-				<BackgroundInsets>
-					<AbsInset left="4" right="4" top="4" bottom="4"/>
-				</BackgroundInsets>
-			</Backdrop>
-			<Layers>
-				<Layer level="OVERLAY">
-					<FontString name="$parent_Dec1" inherits="GameFontNormalSmall" text="Type a new name into the textbox,">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="$parent">
-								<Offset>
-									<AbsDimension x="5" y="-5"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</FontString>
-					<FontString name="$parent_Dec2" inherits="GameFontNormalSmall" text="press 'Save' to save a new profile.">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec1">
-								<Offset>
-									<AbsDimension x="0" y="0"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</FontString>
-				</Layer>
-			</Layers>
-			
-			<Frames>
-				<EditBox name="SaveProfileEditBox" autoFocus="false" inherits="InputBoxTemplate" letters="25">
-					<Size>
-						<AbsDimension x="235" y="16"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parent_Dec2" relativePoint="BOTTOMLEFT">
-							<Offset>
-								<AbsDimension x="5" y="-5	"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<FontString inherits="ChatFontNormal" bytes="64"/>
-					<Layers>
-						<Layer level="OVERLAY">
-							<FontString name="SaveProfileEditBoxText" inherits="GameFontNormalSmall" justifyH="LEFT">
-								<Size>
-									<AbsDimension x="120" y="20"/>
-								</Size>
-								<Anchors>
-									<Anchor point="LEFT" relativeTo="SaveProfileEditBox" relativePoint="RIGHT">
-										<Offset>
-											<AbsDimension x="0" y="0"/>
-										</Offset>
-									</Anchor>
-								</Anchors>
-							</FontString>
-						</Layer>
-					</Layers>
-				</EditBox>
-				<Frame name="ProfilesDropDown" inherits="UIDropDownMenuTemplate" id="1">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec2">
-							<Offset>
-								<AbsDimension x="-15" y="-36" /> 
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Layers>
-						<Layer level="OVERLAY">
-							<FontString inherits="GameFontNormalSmall" text="Profiles:">
-								<Anchors>
-									<Anchor point="TOPLEFT">
-										<Offset>
-											<AbsDimension x="20" y="10"/> 
-										</Offset>
-									</Anchor>
-								</Anchors>
-							</FontString>
-						</Layer>
-					</Layers>
-					<Scripts>
-						<OnShow>
-							CS_AddOnOrganizer_Profiles_ProfilesDropDown_OnLoad()
-						</OnShow>
-					</Scripts>
-				</Frame>
-				<Button name="SaveProfile" inherits="UIPanelButtonTemplate" text="Save">
-					<Size>
-						<AbsDimension x="120" y="21"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="ProfilesDropDown">
-							<Offset>
-								<AbsDimension x="15" y="0"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							CS_AddOnOrganizer_SaveProfile();
-						</OnClick>
-					</Scripts>
-				</Button>
-				<Button name="DeleteProfile" inherits="UIPanelButtonTemplate" text="Delete">
-					<Size>
-						<AbsDimension x="120" y="21"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="SaveProfile">
-							<Offset>
-								<AbsDimension x="0" y="0"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-					<Scripts>
-						<OnClick>
-							CS_AddOnOrganizer_DeleteProfile();
-						</OnClick>
-					</Scripts>
-				</Button>
-			</Frames>
-			
-			</Frame>
-			
-			
-			
+                <Size>
+                    <AbsDimension x="250" y="125"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="CS_AddOnOrganizer_List">
+                        <Offset>
+                            <AbsDimension x="-32" y="-32"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Backdrop bgFile="Interface\Minimap\TooltipBackdrop-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+                    <EdgeSize>
+                        <AbsValue val="16"/>
+                    </EdgeSize>
+                    <TileSize>
+                        <AbsValue val="16"/>
+                    </TileSize>
+                    <BackgroundInsets>
+                        <AbsInset left="4" right="4" top="4" bottom="4"/>
+                    </BackgroundInsets>
+                </Backdrop>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parent_Dec1" inherits="GameFontNormalSmall" text="Type a new name into the textbox,">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent">
+                                    <Offset>
+                                        <AbsDimension x="5" y="-5"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parent_Dec2" inherits="GameFontNormalSmall" text="press 'Save' to save a new profile.">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec1">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <EditBox name="SaveProfileEditBox" autoFocus="false" inherits="InputBoxTemplate" letters="25">
+                        <Size>
+                            <AbsDimension x="235" y="16"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parent_Dec2" relativePoint="BOTTOMLEFT">
+                                <Offset>
+                                    <AbsDimension x="5" y="-5	"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <FontString inherits="ChatFontNormal" bytes="64"/>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString name="SaveProfileEditBoxText" inherits="GameFontNormalSmall" justifyH="LEFT">
+                                    <Size>
+                                        <AbsDimension x="120" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="LEFT" relativeTo="SaveProfileEditBox" relativePoint="RIGHT">
+                                            <Offset>
+                                                <AbsDimension x="0" y="0"/>
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </EditBox>
+                    <Frame name="ProfilesDropDown" inherits="UIDropDownMenuTemplate" id="1">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec2">
+                                <Offset>
+                                    <AbsDimension x="-15" y="-36" /> 
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString inherits="GameFontNormalSmall" text="Profiles:">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT">
+                                            <Offset>
+                                                <AbsDimension x="20" y="10"/> 
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                    <Button name="SaveProfile" inherits="UIPanelButtonTemplate" text="Save">
+                        <Size>
+                            <AbsDimension x="120" y="21"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="ProfilesDropDown">
+                                <Offset>
+                                    <AbsDimension x="15" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                CS_AddOnOrganizer_SaveProfile();
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <Button name="DeleteProfile" inherits="UIPanelButtonTemplate" text="Delete">
+                        <Size>
+                            <AbsDimension x="120" y="21"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="SaveProfile">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                        <Scripts>
+                            <OnClick>
+                                CS_AddOnOrganizer_DeleteProfile();
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT">
+                                <Offset>
+                                    <AbsDimension x="0" y="0"/>
+                                </Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Button>
+                </Frames>
+            </Frame>
 			<Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -473,7 +468,6 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			
 			<Button name="$parent_Profile" inherits="UIPanelButtonTemplate" text="Profiles...">
 				<Size>
 					<AbsDimension x="80" y="21"/>
@@ -491,8 +485,6 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			
-			
 			<ScrollFrame name="$parent_Scroll" inherits="FauxScrollFrameTemplate">
 				<Size>
 					<AbsDimension x="296" y="332"/> 
@@ -505,8 +497,11 @@
 					</Anchor>
 				</Anchors>
 				<Scripts>
+                    <OnShow>
+                        CS_AddOnOrganizer_List_Update()
+                    </OnShow>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(CS_ADDONORGANIZER_ADDONSLINE_HEIGHT, CS_AddOnOrganizer_List_Update);
+                        CS_AddOnOrganizerList_OnVerticalScroll()
 					</OnVerticalScroll>
 				</Scripts>
 				<Layers>
@@ -540,7 +535,6 @@
 					</Layer>
 				</Layers>
 			</ScrollFrame>
-			
 			<Frame name="$parent_HighlightFrame" hidden="true">
 				<Size>
 					<AbsDimension x="293" y="16"/>
@@ -753,5 +747,10 @@
 				</Anchors>
 			</Button>
 		</Frames>
+        <Scripts>
+            <OnHide>
+                HideUIPanel(CS_AddOnOrganizer_List_Profiles)
+            </OnHide>
+        </Scripts>
 	</Frame>
 </Ui>
