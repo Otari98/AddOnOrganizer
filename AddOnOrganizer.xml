@@ -154,103 +154,6 @@
             </Layer>
         </Layers>
         <Frames>
-            <Frame name="$parent_Profiles" enableMouse="true" toplevel="true" hidden="true">
-                <Size x="250" y="125"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="CS_AddOnOrganizer_List">
-                        <Offset x="-32" y="-32"/>
-                    </Anchor>
-                </Anchors>
-                <Backdrop bgFile="Interface\Minimap\TooltipBackdrop-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-                    <EdgeSize val="16"/>
-                    <TileSize val="16"/>
-                    <BackgroundInsets left="4" right="4" top="4" bottom="4"/>
-                </Backdrop>
-                <Layers>
-                    <Layer level="OVERLAY">
-                        <FontString name="$parent_Dec1" inherits="GameFontNormalSmall" text="Type a new name into the textbox,">
-                            <Anchors>
-                                <Anchor point="TOPLEFT" relativeTo="$parent">
-                                    <Offset x="5" y="-5"/>
-                                </Anchor>
-                            </Anchors>
-                        </FontString>
-                        <FontString name="$parent_Dec2" inherits="GameFontNormalSmall" text="press 'Save' to save a new profile.">
-                            <Anchors>
-                                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec1"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-                </Layers>
-                <Frames>
-                    <EditBox name="SaveProfileEditBox" autoFocus="false" inherits="InputBoxTemplate" letters="25">
-                        <Size x="235" y="16"/>
-                        <Anchors>
-                            <Anchor point="TOPLEFT" relativeTo="$parent_Dec2" relativePoint="BOTTOMLEFT">
-                                <Offset x="5" y="-5    "/>
-                            </Anchor>
-                        </Anchors>
-                        <FontString inherits="ChatFontNormal" bytes="64"/>
-                        <Layers>
-                            <Layer level="OVERLAY">
-                                <FontString name="SaveProfileEditBoxText" inherits="GameFontNormalSmall" justifyH="LEFT">
-                                    <Size x="120" y="20"/>
-                                    <Anchors>
-                                        <Anchor point="LEFT" relativeTo="SaveProfileEditBox" relativePoint="RIGHT"/>
-                                    </Anchors>
-                                </FontString>
-                            </Layer>
-                        </Layers>
-                    </EditBox>
-                    <Frame name="ProfilesDropDown" inherits="UIDropDownMenuTemplate" id="1">
-                        <Anchors>
-                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec2">
-                                <Offset x="-15" y="-36" />
-                            </Anchor>
-                        </Anchors>
-                        <Layers>
-                            <Layer level="OVERLAY">
-                                <FontString inherits="GameFontNormalSmall" text="Profiles:">
-                                    <Anchors>
-                                        <Anchor point="TOPLEFT">
-                                            <Offset x="20" y="10"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </FontString>
-                            </Layer>
-                        </Layers>
-                    </Frame>
-                    <Button name="SaveProfile" inherits="UIPanelButtonTemplate" text="Save">
-                        <Size x="120" y="21"/>
-                        <Anchors>
-                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="ProfilesDropDown">
-                                <Offset x="15" y="0"/>
-                            </Anchor>
-                        </Anchors>
-                        <Scripts>
-                            <OnClick>
-                                CS_AddOnOrganizer_SaveProfile();
-                            </OnClick>
-                        </Scripts>
-                    </Button>
-                    <Button name="DeleteProfile" inherits="UIPanelButtonTemplate" text="Delete">
-                        <Size x="120" y="21"/>
-                        <Anchors>
-                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="SaveProfile"/>
-                        </Anchors>
-                        <Scripts>
-                            <OnClick>
-                                CS_AddOnOrganizer_DeleteProfile();
-                            </OnClick>
-                        </Scripts>
-                    </Button>
-                    <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
-                        <Anchors>
-                            <Anchor point="TOPRIGHT"/>
-                        </Anchors>
-                    </Button>
-                </Frames>
-            </Frame>
             <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
                 <Anchors>
                     <Anchor point="TOPRIGHT">
@@ -307,7 +210,7 @@
                 </Scripts>
             </Button>
             <Button name="$parent_EnableAll" inherits="UIPanelButtonTemplate" text="Enable All">
-                <Size x="90" y="21"/>
+                <Size x="80" y="21"/>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset x="70" y="-32"/>
@@ -320,7 +223,7 @@
                 </Scripts>
             </Button>
             <Button name="$parent_DisableAll" inherits="UIPanelButtonTemplate" text="Disable All">
-                <Size x="90" y="21"/>
+                <Size x="80" y="21"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_EnableAll"/>
                 </Anchors>
@@ -330,19 +233,37 @@
                     </OnClick>
                 </Scripts>
             </Button>
-            <Button name="$parent_Profile" inherits="UIPanelButtonTemplate" text="Profiles...">
-                <Size x="80" y="21"/>
+            <Button name="$parent_SaveProfile" inherits="UIPanelButtonTemplate" text="SAVE">
+                <Size x="60" y="21"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_EnableAll">
-                        <Offset x="0" y="-10"/>
+                        <Offset x="0" y="0"/>
                     </Anchor>
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        CS_AddOnOrganizer_ProfilesShowHide();
+                        CS_AddOnOrganizer_SaveProfile();
                     </OnClick>
                 </Scripts>
             </Button>
+            <Button name="$parent_DeleteProfile" inherits="UIPanelButtonTemplate" text="DELETE">
+                <Size x="60" y="21"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_SaveProfile"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_DeleteProfile();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Frame name="$parent_ProfilesDropDown" inherits="UIDropDownMenuTemplate">
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="-27" y="-40"/>
+                    </Anchor>
+                </Anchors>
+            </Frame>
             <ScrollFrame name="$parent_Scroll" inherits="FauxScrollFrameTemplate">
                 <Size x="296" y="332"/>
                 <Anchors>
@@ -536,10 +457,5 @@
                 </Anchors>
             </Button>
         </Frames>
-        <Scripts>
-            <OnHide>
-                HideUIPanel(CS_AddOnOrganizer_List_Profiles)
-            </OnHide>
-        </Scripts>
     </Frame>
 </Ui>

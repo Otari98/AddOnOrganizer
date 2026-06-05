@@ -5,7 +5,7 @@ local _G = _G or getfenv(0)
 local addonsDisplayed = 22
 local addonsLineHeight = 16
 local version = GetAddOnMetadata("AddOnOrganizer", "Version")
-local profileID
+local selectedProfileIndex
 local AddOnList = {}
 
 local GREEN = "|cff00FF00"
@@ -32,63 +32,64 @@ function CS_AddOnOrganizer_OnEvent(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1 == "AddOnOrganizer" then
             DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer "..GREEN.."Loaded|r")
-            UIDropDownMenu_SetWidth(220, ProfilesDropDown)
-            UIDropDownMenu_Initialize(ProfilesDropDown, CS_AddOnOrganizer_InitializeDropDown)
+            CS_AddOnOrganizer_List_Title:SetText("AddOnOrganizer v."..version)
+            UIDropDownMenu_SetWidth(110, CS_AddOnOrganizer_List_ProfilesDropDown)
+            UIDropDownMenu_Initialize(CS_AddOnOrganizer_List_ProfilesDropDown, CS_AddOnOrganizer_InitializeDropDown)
             self:UnregisterEvent(event)
         end
     end
 end
 
-function CS_AddOnOrganizer_SaveProfile()
-    local profileName = SaveProfileEditBox:GetText()
-    local newKey
-    local found = false
-
-    if (profileName ~= "") then
-        newKey = table.getn(CS_AddOnOrganizer_Profiles) + 1
-
-        for i = 1, table.getn(CS_AddOnOrganizer_Profiles) do
-            if (CS_AddOnOrganizer_Profiles[i][1] == profileName) then
-                newKey = i
-                found = true
-            end
-        end
-
-        if (not found) then
-            tinsert(CS_AddOnOrganizer_Profiles, { SaveProfileEditBox:GetText() })
-            DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..SaveProfileEditBox:GetText().." has been "..GREEN.."ADDED|r to profiles list!")
-        else
-            DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..SaveProfileEditBox:GetText().." has been "..GREEN.."MODIFIED|r in the profiles list!")
-        end
-
-        local j = 2
-        for i = 1, GetNumAddOns() do
-            if (AddOnList[i] == 1) then
-                CS_AddOnOrganizer_Profiles[newKey][j] = GetAddOnInfo(i)
-                j = j + 1
-            end
-        end
-    else
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..RED.."You have to write a name for the profile!|r")
+function CS_AddOnOrganizer_SaveProfile(profileName)
+    if not profileName and selectedProfileIndex then
+        profileName = CS_AddOnOrganizer_Profiles[selectedProfileIndex][1]
     end
+
+    if profileName == "" then return end
+
+    local found = false
+    local newKey = table.getn(CS_AddOnOrganizer_Profiles) + 1
+
+    for i = 1, table.getn(CS_AddOnOrganizer_Profiles) do
+        if (CS_AddOnOrganizer_Profiles[i][1] == profileName) then
+            newKey = i
+            found = true
+        end
+    end
+
+    if (not found) then
+        tinsert(CS_AddOnOrganizer_Profiles, { profileName })
+        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..profileName.." has been "..GREEN.."ADDED|r to profiles list!")
+        selectedProfileIndex = table.getn(CS_AddOnOrganizer_Profiles)
+    else
+        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..profileName.." has been "..GREEN.."MODIFIED|r in the profiles list!")
+    end
+
+    local j = 2
+    for i = 1, GetNumAddOns() do
+        if (AddOnList[i] == 1) then
+            CS_AddOnOrganizer_Profiles[newKey][j] = GetAddOnInfo(i)
+            j = j + 1
+        end
+    end
+    CS_AddOnOrganizer_List_Update()
 end
 
 function CS_AddOnOrganizer_DeleteProfile()
-    if profileID then
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..CS_AddOnOrganizer_Profiles[profileID][1].." has been "..RED.."DELETED|r from profiles list!")
-        SaveProfileEditBox:SetText("")
-        table.remove(CS_AddOnOrganizer_Profiles, profileID)
-        UIDropDownMenu_SetText("", ProfilesDropDown)
-        profileID = nil
+    if selectedProfileIndex then
+        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..CS_AddOnOrganizer_Profiles[selectedProfileIndex][1].." has been "..RED.."DELETED|r from profiles list!")
+        table.remove(CS_AddOnOrganizer_Profiles, selectedProfileIndex)
+        UIDropDownMenu_SetText("", CS_AddOnOrganizer_List_ProfilesDropDown)
+        selectedProfileIndex = nil
     end
+    CS_AddOnOrganizer_List_Update()
 end
 
-function CS_AddOnOrganizer_LoadProfile()
-    UIDropDownMenu_SetSelectedID(ProfilesDropDown, this:GetID())
+function CS_AddOnOrganizer_LoadProfile(id)
+    selectedProfileIndex = id
     CS_AddOnOrganizer_DisableAll()
-    profileID = this:GetID()
-    for j = 2, table.getn(CS_AddOnOrganizer_Profiles[this:GetID()]) do
-        local loadname = CS_AddOnOrganizer_Profiles[this:GetID()][j]
+    for j = 2, table.getn(CS_AddOnOrganizer_Profiles[id]) do
+        local loadname = CS_AddOnOrganizer_Profiles[id][j]
         for i = 1, GetNumAddOns() do
             local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i)
             if (name == loadname) then
@@ -97,25 +98,19 @@ function CS_AddOnOrganizer_LoadProfile()
         end
     end
     CS_AddOnOrganizer_List_Update()
-    SaveProfileEditBox:SetText(CS_AddOnOrganizer_Profiles[this:GetID()][1])
 end
 
 function CS_AddOnOrganizer_ListShowHide()
-    if (CS_AddOnOrganizer_List:IsVisible()) then
-        HideUIPanel(CS_AddOnOrganizer_List_Profiles)
+    if CS_AddOnOrganizer_List:IsShown() then
         HideUIPanel(CS_AddOnOrganizer_List)
     else
-        CS_AddOnOrganizer_List_Title:SetText("AddOnOrganizer v."..version)
         ShowUIPanel(CS_AddOnOrganizer_List)
-        CS_AddOnOrganizer_GetList()
+        for i = 1, GetNumAddOns() do
+            local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i)
+            AddOnList[i] = enabled
+        end
+        selectedProfileIndex = nil
         CS_AddOnOrganizer_List_Update()
-    end
-end
-
-function CS_AddOnOrganizer_GetList()
-    for i = 1, GetNumAddOns() do
-        local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i)
-        AddOnList[i] = enabled
     end
 end
 
@@ -125,8 +120,8 @@ end
 
 function CS_AddOnOrganizer_List_Update()
     local numaddons = GetNumAddOns()
-    CS_AddOnOrganizer_List_AddOnCount:SetText("AddOns: "..WHITE..numaddons.."|r")
-    CS_AddOnOrganizer_List_CountMiddle:SetWidth(CS_AddOnOrganizer_List_AddOnCount:GetWidth())
+    -- CS_AddOnOrganizer_List_AddOnCount:SetText("AddOns: "..WHITE..numaddons.."|r")
+    -- CS_AddOnOrganizer_List_CountMiddle:SetWidth(CS_AddOnOrganizer_List_AddOnCount:GetWidth())
 
     local scrollBar = FauxScrollFrame_Update(CS_AddOnOrganizer_List_Scroll, numaddons, addonsDisplayed, addonsLineHeight, nil, nil, nil, nil, 293, 316)
 
@@ -163,6 +158,15 @@ function CS_AddOnOrganizer_List_Update()
                 addonLogTitle:SetTextColor(0.7, 0.7, 0.7)
             end
         end
+    end
+    if selectedProfileIndex then
+        UIDropDownMenu_SetText(CS_AddOnOrganizer_Profiles[selectedProfileIndex][1], CS_AddOnOrganizer_List_ProfilesDropDown)
+        CS_AddOnOrganizer_List_SaveProfile:Enable()
+        CS_AddOnOrganizer_List_DeleteProfile:Enable()
+    else
+        UIDropDownMenu_SetText("Select Profile", CS_AddOnOrganizer_List_ProfilesDropDown)
+        CS_AddOnOrganizer_List_SaveProfile:Disable()
+        CS_AddOnOrganizer_List_DeleteProfile:Disable()
     end
 end
 
@@ -286,20 +290,50 @@ function CS_AddOnOrganizer_DisableAll()
     end
 end
 
-function CS_AddOnOrganizer_ProfilesShowHide()
-    if (CS_AddOnOrganizer_List_Profiles:IsVisible()) then
-        HideUIPanel(CS_AddOnOrganizer_List_Profiles)
-    else
-        ShowUIPanel(CS_AddOnOrganizer_List_Profiles)
-    end
-end
-
 local info = {}
 function CS_AddOnOrganizer_InitializeDropDown()
-    for i = 1, table.getn(CS_AddOnOrganizer_Profiles) do
+    local numProfiles = table.getn(CS_AddOnOrganizer_Profiles)
+    if numProfiles < UIDROPDOWNMENU_MAXBUTTONS then
+        info.text = GREEN.."+ New Profile|r"
+        -- info.notCheckable = true
+        info.func = StaticPopup_Show
+        info.arg1 = "ADDON_ORGANIZER_NEW_PROFILE"
+        info.checked = nil
+        UIDropDownMenu_AddButton(info)
+    end
+    for i = 1, numProfiles do
         info.text = CS_AddOnOrganizer_Profiles[i][1]
         info.func = CS_AddOnOrganizer_LoadProfile
-        info.checked = profileID and CS_AddOnOrganizer_Profiles[profileID][1] == info.text
+        -- info.notCheckable = nil
+        info.arg1 = i
+        info.checked = selectedProfileIndex and i == selectedProfileIndex
         UIDropDownMenu_AddButton(info)
     end
 end
+
+StaticPopupDialogs["ADDON_ORGANIZER_NEW_PROFILE"] = {
+	text = "Enter profile name:",
+	button1 = OKAY,
+	button2 = CANCEL,
+	hasEditBox = 1,
+	OnAccept = function()
+        CS_AddOnOrganizer_SaveProfile(_G[this:GetParent():GetName().."EditBox"]:GetText())
+	end,
+	OnShow = function()
+		_G[this:GetName().."EditBox"]:SetFocus()
+	end,
+	OnHide = function()
+		_G[this:GetName().."EditBox"]:SetText("")
+	end,
+	EditBoxOnEnterPressed = function()
+		CS_AddOnOrganizer_SaveProfile(this:GetText())
+		this:GetParent():Hide()
+	end,
+	EditBoxOnEscapePressed = function()
+		this:GetParent():Hide()
+	end,
+	timeout = 0,
+	exclusive = 1,
+	whileDead = 1,
+	hideOnEscape = 1
+}
