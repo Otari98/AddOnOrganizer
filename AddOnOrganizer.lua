@@ -31,7 +31,7 @@ end
 function CS_AddOnOrganizer_OnEvent(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1 == "AddOnOrganizer" then
-            DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer " .. GREEN .. "Loaded|r")
+            DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer "..GREEN.."Loaded|r")
             UIDropDownMenu_SetWidth(220, ProfilesDropDown)
             UIDropDownMenu_Initialize(ProfilesDropDown, CS_AddOnOrganizer_InitializeDropDown)
             self:UnregisterEvent(event)
@@ -56,11 +56,9 @@ function CS_AddOnOrganizer_SaveProfile()
 
         if (not found) then
             tinsert(CS_AddOnOrganizer_Profiles, { SaveProfileEditBox:GetText() })
-            DEFAULT_CHAT_FRAME:AddMessage(GREEN .. "CS_AddOnOrganizer|r - " ..
-                SaveProfileEditBox:GetText() .. " has been " .. GREEN .. "ADDED|r to profiles list!")
+            DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..SaveProfileEditBox:GetText().." has been "..GREEN.."ADDED|r to profiles list!")
         else
-            DEFAULT_CHAT_FRAME:AddMessage(GREEN .. "CS_AddOnOrganizer|r - " ..
-                SaveProfileEditBox:GetText() .. " has been " .. GREEN .. "MODIFIED|r in the profiles list!")
+            DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..SaveProfileEditBox:GetText().." has been "..GREEN.."MODIFIED|r in the profiles list!")
         end
 
         local j = 2
@@ -71,14 +69,13 @@ function CS_AddOnOrganizer_SaveProfile()
             end
         end
     else
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN .. "CS_AddOnOrganizer|r - " .. RED .. "You have to write a name for the profile!|r")
+        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..RED.."You have to write a name for the profile!|r")
     end
 end
 
 function CS_AddOnOrganizer_DeleteProfile()
     if profileID then
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN .. "CS_AddOnOrganizer|r - " ..
-            CS_AddOnOrganizer_Profiles[profileID][1] .. " has been " .. RED .. "DELETED|r from profiles list!")
+        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..CS_AddOnOrganizer_Profiles[profileID][1].." has been "..RED.."DELETED|r from profiles list!")
         SaveProfileEditBox:SetText("")
         table.remove(CS_AddOnOrganizer_Profiles, profileID)
         UIDropDownMenu_SetText("", ProfilesDropDown)
@@ -108,7 +105,7 @@ function CS_AddOnOrganizer_ListShowHide()
         HideUIPanel(CS_AddOnOrganizer_List_Profiles)
         HideUIPanel(CS_AddOnOrganizer_List)
     else
-        CS_AddOnOrganizer_List_Title:SetText("AddOnOrganizer v." .. version)
+        CS_AddOnOrganizer_List_Title:SetText("AddOnOrganizer v."..version)
         ShowUIPanel(CS_AddOnOrganizer_List)
         CS_AddOnOrganizer_GetList()
         CS_AddOnOrganizer_List_Update()
@@ -128,7 +125,7 @@ end
 
 function CS_AddOnOrganizer_List_Update()
     local numaddons = GetNumAddOns()
-    CS_AddOnOrganizer_List_AddOnCount:SetText("AddOns: " .. WHITE .. numaddons .. "|r")
+    CS_AddOnOrganizer_List_AddOnCount:SetText("AddOns: "..WHITE..numaddons.."|r")
     CS_AddOnOrganizer_List_CountMiddle:SetWidth(CS_AddOnOrganizer_List_AddOnCount:GetWidth())
 
     local scrollBar = FauxScrollFrame_Update(CS_AddOnOrganizer_List_Scroll, numaddons, addonsDisplayed, addonsLineHeight, nil, nil, nil, nil, 293, 316)
@@ -137,8 +134,8 @@ function CS_AddOnOrganizer_List_Update()
         local addonIndex = i + (FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll) or 0)
 
         if (addonIndex <= numaddons) then
-            local addonLogTitle = _G["CS_AddOnOrganizer_List_Title" .. i]
-            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. i .. "Tag"]
+            local addonLogTitle = _G["CS_AddOnOrganizer_List_Title"..i]
+            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title"..i.."Tag"]
             local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex)
 
             addonLogTitle:SetText(title)
@@ -172,7 +169,7 @@ end
 function CS_AddOnOrganizer_TitleButton_OnClick(self)
     local buttonID = self:GetID()
     local addonIndex = buttonID + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll)
-    local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. buttonID .. "Tag"]
+    local addonTitleTag = _G["CS_AddOnOrganizer_List_Title"..buttonID.."Tag"]
     local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex)
 
     if (AddOnList[addonIndex] == 1) then
@@ -195,8 +192,8 @@ end
 function CS_AddOnOrganizer_TitleButton_OnEnter(self)
     local addonIndex = self:GetID() + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll)
     local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex)
-    local dependencies = GetAddOnDependencies(addonIndex) and WHITE .. GetAddOnDependencies(addonIndex) or WHITE .. "No Dependencies"
-    local loadondemand = IsAddOnLoadOnDemand(addonIndex) and GREEN .. "True|r" or RED .. "False|r"
+    local dependencies = GetAddOnDependencies(addonIndex) and WHITE..GetAddOnDependencies(addonIndex) or WHITE.."No Dependencies"
+    local loadondemand = IsAddOnLoadOnDemand(addonIndex) and GREEN.."True|r" or RED.."False|r"
     title = title or "No Title"
     notes = notes or "No Notes"
 
@@ -206,30 +203,30 @@ function CS_AddOnOrganizer_TitleButton_OnEnter(self)
         GameTooltip:AddLine(title)
         GameTooltip:AddLine(notes, 1, 0.82, 0, 1, true)
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("Addon is Active: " .. GREEN .. "True")
-        GameTooltip:AddLine("LoadOnDemand: " .. loadondemand)
-        GameTooltip:AddLine("Dependencies: " .. dependencies)
+        GameTooltip:AddLine("Addon is Active: "..GREEN.."True")
+        GameTooltip:AddLine("LoadOnDemand: "..loadondemand)
+        GameTooltip:AddLine("Dependencies: "..dependencies)
     elseif (reason == "DISABLED") then
         reason = _G["ADDON_"..reason]
         GameTooltip:AddLine(name, 1, 1, 1, 1, false)
         GameTooltip:AddLine(title)
         GameTooltip:AddLine(notes, 1, 0.82, 0, 1, true)
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("Addon is Active: " .. RED .. "False")
-        GameTooltip:AddLine("Reason: " .. RED .. reason)
+        GameTooltip:AddLine("Addon is Active: "..RED.."False")
+        GameTooltip:AddLine("Reason: "..RED..reason)
         GameTooltip:AddLine("You might still enable this addon.")
-        GameTooltip:AddLine("LoadOnDemand: " .. loadondemand)
-        GameTooltip:AddLine("Dependencies: " .. dependencies)
+        GameTooltip:AddLine("LoadOnDemand: "..loadondemand)
+        GameTooltip:AddLine("Dependencies: "..dependencies)
     else
         reason = _G["ADDON_"..reason]
         GameTooltip:AddLine(name, 1, 1, 1, 1, false)
         GameTooltip:AddLine(title)
         GameTooltip:AddLine(notes, 1, 0.82, 0, 1, true)
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("Addon is Active: " .. RED .. "False")
-        GameTooltip:AddLine("Reason: " .. RED .. reason)
-        GameTooltip:AddLine("LoadOnDemand: " .. loadondemand)
-        GameTooltip:AddLine("Dependencies: " .. dependencies)
+        GameTooltip:AddLine("Addon is Active: "..RED.."False")
+        GameTooltip:AddLine("Reason: "..RED..reason)
+        GameTooltip:AddLine("LoadOnDemand: "..loadondemand)
+        GameTooltip:AddLine("Dependencies: "..dependencies)
     end
     GameTooltip:Show()
     self:SetBackdropColor(1, 1, 1, 0.4)
@@ -267,8 +264,8 @@ function CS_AddOnOrganizer_EnableAll()
     for i = 1, GetNumAddOns() do
         AddOnList[i] = 1
         if (i <= addonsDisplayed) then
-            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. i .. "Tag"]
-            local addonTitle = _G["CS_AddOnOrganizer_List_Title" .. i]
+            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title"..i.."Tag"]
+            local addonTitle = _G["CS_AddOnOrganizer_List_Title"..i]
             addonTitleTag:SetText("Enabled")
             addonTitleTag:SetTextColor(0, 1, 0)
             addonTitle:SetTextColor(1, 1, 0.5)
@@ -280,8 +277,8 @@ function CS_AddOnOrganizer_DisableAll()
     for i = 1, GetNumAddOns() do
         AddOnList[i] = 0
         if (i <= addonsDisplayed) then
-            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. i .. "Tag"]
-            local addonTitle = _G["CS_AddOnOrganizer_List_Title" .. i]
+            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title"..i.."Tag"]
+            local addonTitle = _G["CS_AddOnOrganizer_List_Title"..i]
             addonTitleTag:SetText("Disabled")
             addonTitleTag:SetTextColor(1, 0.7, 0)
             addonTitle:SetTextColor(0.7, 0.7, 0.7)

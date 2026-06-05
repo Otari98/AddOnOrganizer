@@ -1,45 +1,45 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
-	<Script file="AddOnOrganizer.lua"/>
-	<Button name="CS_AddOnOrganizer_TitleButtonTemplate" virtual="true">
-		<Size x="300" y="16"/>
-		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true"/>
-		<Layers>
-			<Layer level="ARTWORK">
-				<FontString name="$parentTag" inherits="GameFontNormal" justifyH="RIGHT">
-					<Size x="80" y="16"/>
-					<Anchors>
-						<Anchor point="RIGHT">
-							<Offset x="-2" y="0"/>
-						</Anchor>
-					</Anchors>
-				</FontString>
-			</Layer>
-		</Layers>
-		<Scripts>
-			<OnLoad>
-				this:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-				this:SetBackdropColor(1, 1, 1, .1)
-			</OnLoad>
-			<OnClick>
-				CS_AddOnOrganizer_TitleButton_OnClick(this);
-			</OnClick>
-			<OnEnter>
-				CS_AddOnOrganizer_TitleButton_OnEnter(this);
-			</OnEnter>
-			<OnLeave>
-				CS_AddOnOrganizer_TitleButton_OnLeave(this);
-			</OnLeave>
-		</Scripts>
-		<ButtonText name="$parentText" justifyH="LEFT">
-			<Size x="240" y="16"/>
-			<Anchor point="LEFT">
-				<Offset x="2" y="0"/>
-			</Anchor>
-		</ButtonText>
-		<NormalFont inherits="GameFontNormal"/>
-		<HighlightFont inherits="GameFontHighlight"/>
-		<DisabledFont inherits="GameFontDisable"/>
-	</Button>
+    <Script file="AddOnOrganizer.lua"/>
+    <Button name="CS_AddOnOrganizer_TitleButtonTemplate" virtual="true">
+        <Size x="300" y="16"/>
+        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" tile="true"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentTag" inherits="GameFontNormal" justifyH="RIGHT">
+                    <Size x="80" y="16"/>
+                    <Anchors>
+                        <Anchor point="RIGHT">
+                            <Offset x="-2" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                this:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+                this:SetBackdropColor(1, 1, 1, .1)
+            </OnLoad>
+            <OnClick>
+                CS_AddOnOrganizer_TitleButton_OnClick(this);
+            </OnClick>
+            <OnEnter>
+                CS_AddOnOrganizer_TitleButton_OnEnter(this);
+            </OnEnter>
+            <OnLeave>
+                CS_AddOnOrganizer_TitleButton_OnLeave(this);
+            </OnLeave>
+        </Scripts>
+        <ButtonText name="$parentText" justifyH="LEFT">
+            <Size x="240" y="16"/>
+            <Anchor point="LEFT">
+                <Offset x="2" y="0"/>
+            </Anchor>
+        </ButtonText>
+        <NormalFont inherits="GameFontNormal"/>
+        <HighlightFont inherits="GameFontHighlight"/>
+        <DisabledFont inherits="GameFontDisable"/>
+    </Button>
     <Button name="GameMenuButtonAddOns" inherits="GameMenuButtonTemplate" text="AddOns" parent="GameMenuFrame">
         <Anchors>
             <Anchor point="TOP" relativeTo="GameMenuButtonMacros" relativePoint="BOTTOM">
@@ -58,103 +58,103 @@
             </OnClick>
         </Scripts>
     </Button>
-	<Frame name="CS_AddOnOrganizer_List" frameStrata="DIALOG" clampedToScree="true" enableMouse="true" movable="true" toplevel="true" parent="UIParent" hidden="true">
-		<Size x="384" y="512"/>
-		<Anchors>
-			<Anchor point="CENTER"/>
-		</Anchors>
-		<HitRectInsets left="0" right="30" top="0" bottom="45"/>
-		<Scripts>
-        	<OnLoad>
-            	CS_AddOnOrganizer_OnLoad(this);
-			</OnLoad>
-			<OnDragStart>
-				this:StartMoving();
-			</OnDragStart>
-			<OnDragStop>
-				this:StopMovingOrSizing();
-			</OnDragStop>
-			<OnEvent>
-				CS_AddOnOrganizer_OnEvent(this, event, arg1);
-			</OnEvent>
-		</Scripts>
-		<Layers>
-			<Layer level="ARTWORK">
-				<FontString name="$parent_Title" inherits="GameFontNormal">
-					<Anchors>
-						<Anchor point="TOP">
-							<Offset x="0" y="-18"/>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<Texture file="Interface\MacroFrame\MacroFrame-Icon">
-					<Size x="60" y="60"/>
-					<Anchors>
-						<Anchor point="TOPLEFT">
-							<Offset x="7" y="-6"/>
-						</Anchor>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentTopLeft" file="Interface\PaperDollInfoFrame\UI-Character-General-TopLeft">
-					<Size x="256" y="256"/>
-					<Anchors>
-						<Anchor point="TOPLEFT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentTopRight" file="Interface\PaperDollInfoFrame\UI-Character-General-TopRight">
-					<Size x="128" y="256"/>
-					<Anchors>
-						<Anchor point="TOPRIGHT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentBottomLeft" file="Interface\FriendsFrame\UI-IgnoreFrame-BotLeft">
-					<Size x="256" y="256"/>
-					<Anchors>
-						<Anchor point="BOTTOMLEFT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentBottomRight" file="Interface\FriendsFrame\UI-IgnoreFrame-BotRight">
-					<Size x="128" y="256"/>
-					<Anchors>
-						<Anchor point="BOTTOMRIGHT"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Layer level="OVERLAY">
-				<Texture name="$parent_CountRight" file="Interface\Common\Common-Input-Border">
-					<Size x="8" y="20"/>
-					<Anchors>
-						<Anchor point="TOPRIGHT">
-							<Offset x="-47" y="-41"/>
-						</Anchor>
-					</Anchors>
-					<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
-				</Texture>
-				<Texture name="$parent_CountMiddle" file="Interface\Common\Common-Input-Border">
-					<Size x="100" y="20"/>
-					<Anchors>
-						<Anchor point="RIGHT" relativeTo="$parent_CountRight" relativePoint="LEFT"/>
-					</Anchors>
-					<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
-				</Texture>
-				<Texture name="$parent_CountLeft" file="Interface\Common\Common-Input-Border">
-					<Size x="8" y="20"/>
-					<Anchors>
-						<Anchor point="RIGHT" relativeTo="$parent_CountMiddle" relativePoint="LEFT"/>
-					</Anchors>
-					<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
-				</Texture>
-				<FontString name="$parent_AddOnCount" inherits="GameFontNormalSmall">
-					<Anchors>
-						<Anchor point="RIGHT" relativeTo="$parent_CountRight">
-							<Offset x="-6" y="0"/>
-						</Anchor>
-					</Anchors>
-				</FontString>
-			</Layer>
-		</Layers>
-		<Frames>
-			<Frame name="$parent_Profiles" enableMouse="true" toplevel="true" hidden="true">
+    <Frame name="CS_AddOnOrganizer_List" frameStrata="DIALOG" enableMouse="true" movable="true" toplevel="true" parent="UIParent" hidden="true">
+        <Size x="384" y="512"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <HitRectInsets left="0" right="30" top="0" bottom="45"/>
+        <Scripts>
+            <OnLoad>
+                CS_AddOnOrganizer_OnLoad(this);
+            </OnLoad>
+            <OnDragStart>
+                this:StartMoving();
+            </OnDragStart>
+            <OnDragStop>
+                this:StopMovingOrSizing();
+            </OnDragStop>
+            <OnEvent>
+                CS_AddOnOrganizer_OnEvent(this, event, arg1);
+            </OnEvent>
+        </Scripts>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parent_Title" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOP">
+                            <Offset x="0" y="-18"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <Texture file="Interface\MacroFrame\MacroFrame-Icon">
+                    <Size x="60" y="60"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="7" y="-6"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentTopLeft" file="Interface\PaperDollInfoFrame\UI-Character-General-TopLeft">
+                    <Size x="256" y="256"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentTopRight" file="Interface\PaperDollInfoFrame\UI-Character-General-TopRight">
+                    <Size x="128" y="256"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBottomLeft" file="Interface\FriendsFrame\UI-IgnoreFrame-BotLeft">
+                    <Size x="256" y="256"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBottomRight" file="Interface\FriendsFrame\UI-IgnoreFrame-BotRight">
+                    <Size x="128" y="256"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parent_CountRight" file="Interface\Common\Common-Input-Border">
+                    <Size x="8" y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT">
+                            <Offset x="-47" y="-41"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+                </Texture>
+                <Texture name="$parent_CountMiddle" file="Interface\Common\Common-Input-Border">
+                    <Size x="100" y="20"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parent_CountRight" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+                </Texture>
+                <Texture name="$parent_CountLeft" file="Interface\Common\Common-Input-Border">
+                    <Size x="8" y="20"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parent_CountMiddle" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+                </Texture>
+                <FontString name="$parent_AddOnCount" inherits="GameFontNormalSmall">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parent_CountRight">
+                            <Offset x="-6" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parent_Profiles" enableMouse="true" toplevel="true" hidden="true">
                 <Size x="250" y="125"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="CS_AddOnOrganizer_List">
@@ -187,7 +187,7 @@
                         <Size x="235" y="16"/>
                         <Anchors>
                             <Anchor point="TOPLEFT" relativeTo="$parent_Dec2" relativePoint="BOTTOMLEFT">
-                                <Offset x="5" y="-5	"/>
+                                <Offset x="5" y="-5    "/>
                             </Anchor>
                         </Anchors>
                         <FontString inherits="ChatFontNormal" bytes="64"/>
@@ -251,295 +251,295 @@
                     </Button>
                 </Frames>
             </Frame>
-			<Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset x="-30" y="-8"/>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_ListShowHide();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_AcceptButton" inherits="UIPanelButtonTemplate" text="Accept">
-				<Size x="131" y="21"/>
-				<Anchors>
-					<Anchor point="BOTTOMLEFT">
-						<Offset x="18" y="80"/>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_AcceptButton_OnClick();
-					</OnClick>
-					<OnEnter>
-						GameTooltip_AddNewbieTip("Accept", 1.0, 1.0, 1.0,"Warning! Some UI's need a restart of WOW in order to work properly!\nAlso remember not to unload any addon wich is a dependencie.", 1);
-					</OnEnter>
-					<OnLeave>
-						GameTooltip:Hide();
-					</OnLeave>
-				</Scripts>
-			</Button>
-			<Button name="$parent_ReloadUIButton" inherits="UIPanelButtonTemplate" text="ReloadUI">
-				<Size x="66" y="21"/>
-				<Anchors>
-					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_AcceptButton"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_ReloadUIButton();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_CloseButton2" inherits="UIPanelButtonTemplate" text="Cancel">
-				<Size x="131" y="21"/>
-				<Anchors>
-					<Anchor point="BOTTOMRIGHT">
-						<Offset x="-40" y="80"/>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_ListShowHide();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_EnableAll" inherits="UIPanelButtonTemplate" text="Enable All">
-				<Size x="90" y="21"/>
-				<Anchors>
-					<Anchor point="TOPLEFT">
-						<Offset x="70" y="-32"/>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_EnableAll();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_DisableAll" inherits="UIPanelButtonTemplate" text="Disable All">
-				<Size x="90" y="21"/>
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_EnableAll"/>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_DisableAll();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parent_Profile" inherits="UIPanelButtonTemplate" text="Profiles...">
-				<Size x="80" y="21"/>
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_EnableAll">
-						<Offset x="0" y="-10"/>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CS_AddOnOrganizer_ProfilesShowHide();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<ScrollFrame name="$parent_Scroll" inherits="FauxScrollFrameTemplate">
-				<Size x="296" y="332"/>
-				<Anchors>
-					<Anchor point="TOPRIGHT">
-						<Offset x="-66" y="-78"/>
-					</Anchor>
-				</Anchors>
-				<Scripts>
+            <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="-30" y="-8"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_ListShowHide();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_AcceptButton" inherits="UIPanelButtonTemplate" text="Accept">
+                <Size x="131" y="21"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT">
+                        <Offset x="18" y="80"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_AcceptButton_OnClick();
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip_AddNewbieTip("Accept", 1.0, 1.0, 1.0,"Warning! Some UI's need a restart of WOW in order to work properly!\nAlso remember not to unload any addon wich is a dependencie.", 1);
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide();
+                    </OnLeave>
+                </Scripts>
+            </Button>
+            <Button name="$parent_ReloadUIButton" inherits="UIPanelButtonTemplate" text="ReloadUI">
+                <Size x="66" y="21"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_AcceptButton"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_ReloadUIButton();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_CloseButton2" inherits="UIPanelButtonTemplate" text="Cancel">
+                <Size x="131" y="21"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT">
+                        <Offset x="-40" y="80"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_ListShowHide();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_EnableAll" inherits="UIPanelButtonTemplate" text="Enable All">
+                <Size x="90" y="21"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset x="70" y="-32"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_EnableAll();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_DisableAll" inherits="UIPanelButtonTemplate" text="Disable All">
+                <Size x="90" y="21"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_EnableAll"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_DisableAll();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_Profile" inherits="UIPanelButtonTemplate" text="Profiles...">
+                <Size x="80" y="21"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_EnableAll">
+                        <Offset x="0" y="-10"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        CS_AddOnOrganizer_ProfilesShowHide();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <ScrollFrame name="$parent_Scroll" inherits="FauxScrollFrameTemplate">
+                <Size x="296" y="332"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="-66" y="-78"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
                     <OnShow>
                         CS_AddOnOrganizer_List_Update()
                     </OnShow>
-					<OnVerticalScroll>
+                    <OnVerticalScroll>
                         CS_AddOnOrganizerList_OnVerticalScroll()
-					</OnVerticalScroll>
-				</Scripts>
-				<Layers>
-					<Layer level="BACKGROUND">
-						<Texture name="$parent_BarTop" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
-							<Size x="31" y="256"/>
-							<Anchors>
-								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
-									<Offset x="-2" y="5"/>
-								</Anchor>
-							</Anchors>
-							<TexCoords left="0" right="0.484375" top="0" bottom="1.0"/>
-						</Texture>
-						<Texture file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
-							<Size x="31" y="108"/>
-							<Anchors>
-								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT">
-									<Offset x="-2" y="-2"/>
-								</Anchor>
-							</Anchors>
-							<TexCoords left="0.515625" right="1.0" top="0" bottom="0.421875"/>
-						</Texture>
-					</Layer>
-				</Layers>
-			</ScrollFrame>
-			<Button name="$parent_Title1" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="1" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent">
-						<Offset x="19" y="-75"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title2" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="2" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title1" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title3" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="3" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title2" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title4" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="4" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title3" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title5" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="5" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title4" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title6" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="6" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title5" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title7" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="7" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title6" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title8" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="8" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title7" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title9" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="9" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title8" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title10" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="10" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title9" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title11" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="11" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title10" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title12" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="12" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title11" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title13" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="13" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title12" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title14" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="14" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title13" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title15" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="15" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title14" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title16" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="16" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title15" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title17" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="17" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title16" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title18" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="18" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title17" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title19" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="19" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title18" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title20" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="20" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title19" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title21" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="21" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title20" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-			<Button name="$parent_Title22" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="22" hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_Title21" relativePoint="BOTTOMLEFT">
-						<Offset x="0" y="1"/>
-					</Anchor>
-				</Anchors>
-			</Button>
-		</Frames>
+                    </OnVerticalScroll>
+                </Scripts>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parent_BarTop" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                            <Size x="31" y="256"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+                                    <Offset x="-2" y="5"/>
+                                </Anchor>
+                            </Anchors>
+                            <TexCoords left="0" right="0.484375" top="0" bottom="1.0"/>
+                        </Texture>
+                        <Texture file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                            <Size x="31" y="108"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT">
+                                    <Offset x="-2" y="-2"/>
+                                </Anchor>
+                            </Anchors>
+                            <TexCoords left="0.515625" right="1.0" top="0" bottom="0.421875"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </ScrollFrame>
+            <Button name="$parent_Title1" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="1" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent">
+                        <Offset x="19" y="-75"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title2" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="2" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title1" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title3" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="3" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title2" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title4" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="4" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title3" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title5" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="5" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title4" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title6" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="6" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title5" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title7" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="7" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title6" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title8" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="8" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title7" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title9" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="9" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title8" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title10" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="10" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title9" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title11" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="11" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title10" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title12" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="12" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title11" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title13" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="13" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title12" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title14" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="14" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title13" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title15" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="15" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title14" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title16" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="16" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title15" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title17" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="17" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title16" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title18" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="18" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title17" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title19" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="19" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title18" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title20" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="20" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title19" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title21" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="21" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title20" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="$parent_Title22" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="22" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_Title21" relativePoint="BOTTOMLEFT">
+                        <Offset x="0" y="1"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
         <Scripts>
             <OnHide>
                 HideUIPanel(CS_AddOnOrganizer_List_Profiles)
             </OnHide>
         </Scripts>
-	</Frame>
+    </Frame>
 </Ui>
