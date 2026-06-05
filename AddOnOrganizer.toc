@@ -3,6 +3,6 @@
 ## Notes: Lists and organizes all of you'r addons, let's you create global profiles.
 ## SavedVariables: CS_AddOnOrganizer_Profiles
 ## Author: Christian Schubert
-## Version: 1.4
+## Version: 2.0
 
 AddOnOrganizer.xml
