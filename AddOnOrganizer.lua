@@ -31,7 +31,7 @@ end
 function CS_AddOnOrganizer_OnEvent(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1 == "AddOnOrganizer" then
-            DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer "..GREEN.."Loaded|r")
+            DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer "..version.." loaded.")
             CS_AddOnOrganizer_List_Title:SetText("AddOnOrganizer v."..version)
             UIDropDownMenu_SetWidth(110, CS_AddOnOrganizer_List_ProfilesDropDown)
             UIDropDownMenu_Initialize(CS_AddOnOrganizer_List_ProfilesDropDown, CS_AddOnOrganizer_InitializeDropDown)
@@ -59,10 +59,10 @@ function CS_AddOnOrganizer_SaveProfile(profileName)
 
     if (not found) then
         tinsert(CS_AddOnOrganizer_Profiles, { profileName })
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..profileName.." has been "..GREEN.."ADDED|r to profiles list!")
+        DEFAULT_CHAT_FRAME:AddMessage(profileName.." profile has been added.")
         selectedProfileIndex = table.getn(CS_AddOnOrganizer_Profiles)
     else
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..profileName.." has been "..GREEN.."MODIFIED|r in the profiles list!")
+        DEFAULT_CHAT_FRAME:AddMessage(profileName.." profile has been updated.")
     end
 
     local j = 2
@@ -77,7 +77,7 @@ end
 
 function CS_AddOnOrganizer_DeleteProfile()
     if selectedProfileIndex then
-        DEFAULT_CHAT_FRAME:AddMessage(GREEN.."CS_AddOnOrganizer|r - "..CS_AddOnOrganizer_Profiles[selectedProfileIndex][1].." has been "..RED.."DELETED|r from profiles list!")
+        DEFAULT_CHAT_FRAME:AddMessage(CS_AddOnOrganizer_Profiles[selectedProfileIndex][1].." profile has been deleted.")
         table.remove(CS_AddOnOrganizer_Profiles, selectedProfileIndex)
         UIDropDownMenu_SetText("", CS_AddOnOrganizer_List_ProfilesDropDown)
         selectedProfileIndex = nil
