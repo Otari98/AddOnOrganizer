@@ -1,5 +1,6 @@
 --## BY: Arina, 60 Warrior on Deathwing EU English.
 --## Use With Caution! ;)
+
 local _G = _G or getfenv(0)
 local addonsDisplayed = 22
 local addonsLineHeight = 16
@@ -16,15 +17,25 @@ CS_AddOnOrganizer_Profiles = {}
 BINDING_HEADER_CS_ADDONORGANIZER_SEP = "AddOnOrganizer"
 BINDING_NAME_CS_ADDONORGANIZER_CONFIG = "Show / Hide"
 
-function CS_AddOnOrganizer_OnLoad()
-    this:RegisterEvent("VARIABLES_LOADED")
-    tinsert(UISpecialFrames, "CS_AddOnOrganizer_List")
-    CS_AddOnOrganizer_List:SetFrameStrata("DIALOG")
-    CS_AddOnOrganizer_List:SetClampedToScreen(true)
-    CS_AddOnOrganizer_List_Profiles:SetFrameStrata("DIALOG")
-    SLASH_CS_ADDONORGANIZER1 = "/aoo"
-    SlashCmdList["CS_ADDONORGANIZER"] = function(msg)
-        CS_AddOnOrganizer_ListShowHide()
+SLASH_CS_ADDONORGANIZER1 = "/aoo"
+SlashCmdList["CS_ADDONORGANIZER"] = function(msg)
+    CS_AddOnOrganizer_ListShowHide()
+end
+
+function CS_AddOnOrganizer_OnLoad(self)
+    self:RegisterForDrag("LeftButton")
+    self:RegisterEvent("ADDON_LOADED")
+    tinsert(UISpecialFrames, self:GetName())
+end
+
+function CS_AddOnOrganizer_OnEvent(self, event, arg1)
+    if event == "ADDON_LOADED" then
+        if arg1 == "AddOnOrganizer" then
+            DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer " .. GREEN .. "Loaded|r")
+            UIDropDownMenu_SetWidth(220, ProfilesDropDown)
+            UIDropDownMenu_Initialize(ProfilesDropDown, CS_AddOnOrganizer_InitializeDropDown)
+            self:UnregisterEvent(event)
+        end
     end
 end
 
@@ -90,13 +101,6 @@ function CS_AddOnOrganizer_LoadProfile()
     end
     CS_AddOnOrganizer_List_Update()
     SaveProfileEditBox:SetText(CS_AddOnOrganizer_Profiles[this:GetID()][1])
-end
-
-function CS_AddOnOrganizer_OnEvent()
-    if (event == "VARIABLES_LOADED") then
-        DEFAULT_CHAT_FRAME:AddMessage("AddOnOrganizer " .. GREEN .. "Loaded|r")
-        CS_AddOnOrganizer_ProfilesDropDown_OnLoad()
-    end
 end
 
 function CS_AddOnOrganizer_ListShowHide()
@@ -291,11 +295,6 @@ function CS_AddOnOrganizer_ProfilesShowHide()
     else
         ShowUIPanel(CS_AddOnOrganizer_List_Profiles)
     end
-end
-
-function CS_AddOnOrganizer_ProfilesDropDown_OnLoad()
-    UIDropDownMenu_SetWidth(220, ProfilesDropDown)
-    UIDropDownMenu_Initialize(ProfilesDropDown, CS_AddOnOrganizer_InitializeDropDown)
 end
 
 local info = {}

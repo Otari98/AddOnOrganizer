@@ -57,8 +57,8 @@
                 CS_AddOnOrganizer_ListShowHide();
             </OnClick>
         </Scripts>
-   </Button>
-	<Frame name="CS_AddOnOrganizer_List" enableMouse="true" movable="true" toplevel="true" parent="UIParent" hidden="true">
+    </Button>
+	<Frame name="CS_AddOnOrganizer_List" frameStrata="DIALOG" clampedToScree="true" enableMouse="true" movable="true" toplevel="true" parent="UIParent" hidden="true">
 		<Size x="384" y="512"/>
 		<Anchors>
 			<Anchor point="CENTER"/>
@@ -66,19 +66,16 @@
 		<HitRectInsets left="0" right="30" top="0" bottom="45"/>
 		<Scripts>
         	<OnLoad>
-            	CS_AddOnOrganizer_OnLoad();
-				this:RegisterForDrag("LeftButton");
+            	CS_AddOnOrganizer_OnLoad(this);
 			</OnLoad>
 			<OnDragStart>
 				this:StartMoving();
-				this.isMoving = true;
 			</OnDragStart>
 			<OnDragStop>
 				this:StopMovingOrSizing();
-				this.isMoving = false;
 			</OnDragStop>
 			<OnEvent>
-				CS_AddOnOrganizer_OnEvent(event);
+				CS_AddOnOrganizer_OnEvent(this, event, arg1);
 			</OnEvent>
 		</Scripts>
 		<Layers>
@@ -157,7 +154,7 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Frame name="$parent_Profiles" enableMouse="true" toplevel="true" parent="CS_AddOnOrganizer_List" hidden="true">
+			<Frame name="$parent_Profiles" enableMouse="true" toplevel="true" hidden="true">
                 <Size x="250" y="125"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="CS_AddOnOrganizer_List">
