@@ -1,6 +1,6 @@
 --## BY: Arina, 60 Warrior on Deathwing EU English.
 --## Use With Caution! ;)
-
+local _G = _G or getfenv(0)
 local addonsDisplayed = 22
 local addonsLineHeight = 16
 local version = GetAddOnMetadata("AddOnOrganizer", "Version")
@@ -127,21 +127,17 @@ function CS_AddOnOrganizer_List_Update()
     CS_AddOnOrganizer_List_AddOnCount:SetText("AddOns: " .. WHITE .. numaddons .. "|r")
     CS_AddOnOrganizer_List_CountMiddle:SetWidth(CS_AddOnOrganizer_List_AddOnCount:GetWidth())
 
-    FauxScrollFrame_Update(CS_AddOnOrganizer_List_Scroll, numaddons, addonsDisplayed, addonsLineHeight, nil, nil, nil,
-        CS_AddOnOrganizer_List_HighlightFrame, 293, 316)
-
-    local scrollBar = CS_AddOnOrganizer_List_ScrollScrollBar:IsVisible()
+    local scrollBar = FauxScrollFrame_Update(CS_AddOnOrganizer_List_Scroll, numaddons, addonsDisplayed, addonsLineHeight, nil, nil, nil, nil, 293, 316)
 
     for i = 1, addonsDisplayed do
         local addonIndex = i + (FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll) or 0)
 
         if (addonIndex <= numaddons) then
-            local addonLogTitle = getglobal("CS_AddOnOrganizer_List_Title" .. i)
-            local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title" .. i .. "Tag")
+            local addonLogTitle = _G["CS_AddOnOrganizer_List_Title" .. i]
+            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. i .. "Tag"]
             local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex)
 
             addonLogTitle:SetText(title)
-            addonLogTitle:SetNormalTexture("")
 
             if (AddOnList[addonIndex] == 1) then
                 addonTitleTag:SetText("Enabled")
@@ -169,39 +165,38 @@ function CS_AddOnOrganizer_List_Update()
     end
 end
 
-function CS_AddOnOrganizer_TitleButton_OnClick()
-    local addonIndex = this:GetID() + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll)
-    local buttonID = this:GetID()
-    local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title" .. buttonID .. "Tag")
-    local addonTitle = getglobal("CS_AddOnOrganizer_List_Title" .. buttonID)
+function CS_AddOnOrganizer_TitleButton_OnClick(self)
+    local buttonID = self:GetID()
+    local addonIndex = buttonID + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll)
+    local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. buttonID .. "Tag"]
     local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex)
 
     if (AddOnList[addonIndex] == 1) then
         addonTitleTag:SetText("Disabled")
         addonTitleTag:SetTextColor(1, 0.7, 0)
-        addonTitle:SetTextColor(0.7, 0.7, 0.7)
+        self:SetTextColor(0.7, 0.7, 0.7)
         AddOnList[addonIndex] = 0
     else
         addonTitleTag:SetText("Enabled")
         addonTitleTag:SetTextColor(0, 1.0, 0)
         if (enabled and not loadable) then
-            addonTitle:SetTextColor(0.7, 0.7, 0.7)
+            self:SetTextColor(0.7, 0.7, 0.7)
         else
-            addonTitle:SetTextColor(1, 1, 0.5)
+            self:SetTextColor(1, 1, 0.5)
         end
         AddOnList[addonIndex] = 1
     end
 end
 
-function CS_AddOnOrganizer_TitleButton_OnEnter()
-    local addonIndex = this:GetID() + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll)
+function CS_AddOnOrganizer_TitleButton_OnEnter(self)
+    local addonIndex = self:GetID() + FauxScrollFrame_GetOffset(CS_AddOnOrganizer_List_Scroll)
     local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex)
     local dependencies = GetAddOnDependencies(addonIndex) and WHITE .. GetAddOnDependencies(addonIndex) or WHITE .. "No Dependencies"
     local loadondemand = IsAddOnLoadOnDemand(addonIndex) and GREEN .. "True|r" or RED .. "False|r"
     title = title or "No Title"
     notes = notes or "No Notes"
 
-    GameTooltip_SetDefaultAnchor(GameTooltip, this)
+    GameTooltip_SetDefaultAnchor(GameTooltip, self)
     if (loadable) then
         GameTooltip:AddLine(name, 1, 1, 1, 1, false)
         GameTooltip:AddLine(title)
@@ -211,7 +206,7 @@ function CS_AddOnOrganizer_TitleButton_OnEnter()
         GameTooltip:AddLine("LoadOnDemand: " .. loadondemand)
         GameTooltip:AddLine("Dependencies: " .. dependencies)
     elseif (reason == "DISABLED") then
-        reason = getglobal("ADDON_"..reason)
+        reason = _G["ADDON_"..reason]
         GameTooltip:AddLine(name, 1, 1, 1, 1, false)
         GameTooltip:AddLine(title)
         GameTooltip:AddLine(notes, 1, 0.82, 0, 1, true)
@@ -222,7 +217,7 @@ function CS_AddOnOrganizer_TitleButton_OnEnter()
         GameTooltip:AddLine("LoadOnDemand: " .. loadondemand)
         GameTooltip:AddLine("Dependencies: " .. dependencies)
     else
-        reason = getglobal("ADDON_"..reason)
+        reason = _G["ADDON_"..reason]
         GameTooltip:AddLine(name, 1, 1, 1, 1, false)
         GameTooltip:AddLine(title)
         GameTooltip:AddLine(notes, 1, 0.82, 0, 1, true)
@@ -233,11 +228,12 @@ function CS_AddOnOrganizer_TitleButton_OnEnter()
         GameTooltip:AddLine("Dependencies: " .. dependencies)
     end
     GameTooltip:Show()
-    getglobal("CS_AddOnOrganizer_List_Title" .. this:GetID()):SetBackdropColor(1, 1, 1, 0.4)
+    self:SetBackdropColor(1, 1, 1, 0.4)
 end
 
-function CS_AddOnOrganizer_TitleButton_OnLeave()
-    getglobal("CS_AddOnOrganizer_List_Title" .. this:GetID()):SetBackdropColor(1, 1, 1, 0.1)
+function CS_AddOnOrganizer_TitleButton_OnLeave(self)
+    self:SetBackdropColor(1, 1, 1, 0.1)
+    GameTooltip:Hide()
 end
 
 function CS_AddOnOrganizer_AcceptButton_OnClick()
@@ -267,8 +263,8 @@ function CS_AddOnOrganizer_EnableAll()
     for i = 1, GetNumAddOns() do
         AddOnList[i] = 1
         if (i <= addonsDisplayed) then
-            local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title" .. i .. "Tag")
-            local addonTitle = getglobal("CS_AddOnOrganizer_List_Title" .. i)
+            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. i .. "Tag"]
+            local addonTitle = _G["CS_AddOnOrganizer_List_Title" .. i]
             addonTitleTag:SetText("Enabled")
             addonTitleTag:SetTextColor(0, 1, 0)
             addonTitle:SetTextColor(1, 1, 0.5)
@@ -280,8 +276,8 @@ function CS_AddOnOrganizer_DisableAll()
     for i = 1, GetNumAddOns() do
         AddOnList[i] = 0
         if (i <= addonsDisplayed) then
-            local addonTitleTag = getglobal("CS_AddOnOrganizer_List_Title" .. i .. "Tag")
-            local addonTitle = getglobal("CS_AddOnOrganizer_List_Title" .. i)
+            local addonTitleTag = _G["CS_AddOnOrganizer_List_Title" .. i .. "Tag"]
+            local addonTitle = _G["CS_AddOnOrganizer_List_Title" .. i]
             addonTitleTag:SetText("Disabled")
             addonTitleTag:SetTextColor(1, 0.7, 0)
             addonTitle:SetTextColor(0.7, 0.7, 0.7)

@@ -21,40 +21,24 @@
 				this:SetBackdropColor(1, 1, 1, .1)
 			</OnLoad>
 			<OnClick>
-				CS_AddOnOrganizer_TitleButton_OnClick();
+				CS_AddOnOrganizer_TitleButton_OnClick(this);
 			</OnClick>
 			<OnEnter>
-				CS_AddOnOrganizer_TitleButton_OnEnter();
+				CS_AddOnOrganizer_TitleButton_OnEnter(this);
 			</OnEnter>
 			<OnLeave>
-				CS_AddOnOrganizer_TitleButton_OnLeave();
-				GameTooltip:Hide();
+				CS_AddOnOrganizer_TitleButton_OnLeave(this);
 			</OnLeave>
 		</Scripts>
-		<NormalText name="$parentNormalText" inherits="GameFontNormal" justifyH="LEFT" nonspacewrap="true">
-			<Size x="240" y="10"/>
-			<Anchors>
-				<Anchor point="LEFT">
-					<Offset x="2" y="0"/>
-				</Anchor>
-			</Anchors> 
-		</NormalText>
-		<HighlightText name="$parentHighlightText" inherits="GameFontHighlight" justifyH="LEFT" nonspacewrap="true">
-			<Size x="275" y="10"/>
-			<Anchors>
-				<Anchor point="LEFT">
-					<Offset x="2" y="0"/>
-				</Anchor>
-			</Anchors>
-		</HighlightText>
-		<DisabledText name="$parentDisabledText" inherits="GameFontHighlight" justifyH="LEFT" nonspacewrap="true">
-			<Size x="275" y="15"/>
-			<Anchors>
-				<Anchor point="LEFT">
-					<Offset x="2" y="0"/>
-				</Anchor>
-			</Anchors>
-		</DisabledText>
+		<ButtonText name="$parentText" justifyH="LEFT">
+			<Size x="240" y="16"/>
+			<Anchor point="LEFT">
+				<Offset x="2" y="0"/>
+			</Anchor>
+		</ButtonText>
+		<NormalFont inherits="GameFontNormal"/>
+		<HighlightFont inherits="GameFontHighlight"/>
+		<DisabledFont inherits="GameFontDisable"/>
 	</Button>
     <Button name="GameMenuButtonAddOns" inherits="GameMenuButtonTemplate" text="AddOns" parent="GameMenuFrame">
         <Anchors>
@@ -64,7 +48,7 @@
         </Anchors>
         <Scripts>
             <OnLoad>
-                GameMenuButtonLogout:SetPoint("TOP",this:GetName(),"BOTTOM",0,-1);
+                GameMenuButtonLogout:SetPoint("TOP", this:GetName(), "BOTTOM", 0, -1);
                 GameMenuFrame:SetHeight(GameMenuFrame:GetHeight()+25);
             </OnLoad>
             <OnClick>
@@ -400,17 +384,6 @@
 					</Layer>
 				</Layers>
 			</ScrollFrame>
-			<Frame name="$parent_HighlightFrame" hidden="true">
-				<Size x="293" y="16"/>
-				<Anchors>
-					<Anchor point="TOPLEFT"/>
-				</Anchors>
-				<Layers>
-					<Layer level="HIGHLIGHT">
-						<Texture name="$parent_SkillHighlight" file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alphaMode="ADD"/>
-					</Layer>
-				</Layers>
-			</Frame>
 			<Button name="$parent_Title1" inherits="CS_AddOnOrganizer_TitleButtonTemplate" id="1" hidden="true">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent">
