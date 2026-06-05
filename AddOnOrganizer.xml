@@ -77,9 +77,7 @@
 	<Frame name="CS_AddOnOrganizer_List" enableMouse="true" movable="true" toplevel="true" parent="UIParent" hidden="true">
 		<Size x="384" y="512"/>
 		<Anchors>
-			<Anchor point="CENTER">
-				<Offset x="0" y="0"/>
-			</Anchor>
+			<Anchor point="CENTER"/>
 		</Anchors>
 		<HitRectInsets left="0" right="30" top="0" bottom="45"/>
 		<Scripts>
@@ -198,9 +196,7 @@
                         </FontString>
                         <FontString name="$parent_Dec2" inherits="GameFontNormalSmall" text="press 'Save' to save a new profile.">
                             <Anchors>
-                                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec1">
-                                    <Offset x="0" y="0"/>
-                                </Anchor>
+                                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Dec1"/>
                             </Anchors>
                         </FontString>
                     </Layer>
@@ -219,9 +215,7 @@
                                 <FontString name="SaveProfileEditBoxText" inherits="GameFontNormalSmall" justifyH="LEFT">
                                     <Size x="120" y="20"/>
                                     <Anchors>
-                                        <Anchor point="LEFT" relativeTo="SaveProfileEditBox" relativePoint="RIGHT">
-                                            <Offset x="0" y="0"/>
-                                        </Anchor>
+                                        <Anchor point="LEFT" relativeTo="SaveProfileEditBox" relativePoint="RIGHT"/>
                                     </Anchors>
                                 </FontString>
                             </Layer>
@@ -261,9 +255,7 @@
                     <Button name="DeleteProfile" inherits="UIPanelButtonTemplate" text="Delete">
                         <Size x="120" y="21"/>
                         <Anchors>
-                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="SaveProfile">
-                                <Offset x="0" y="0"/>
-                            </Anchor>
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="SaveProfile"/>
                         </Anchors>
                         <Scripts>
                             <OnClick>
@@ -273,9 +265,7 @@
                     </Button>
                     <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
                         <Anchors>
-                            <Anchor point="TOPRIGHT">
-                                <Offset x="0" y="0"/>
-                            </Anchor>
+                            <Anchor point="TOPRIGHT"/>
                         </Anchors>
                     </Button>
                 </Frames>
@@ -351,9 +341,7 @@
 			<Button name="$parent_DisableAll" inherits="UIPanelButtonTemplate" text="Disable All">
 				<Size x="90" y="21"/>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_EnableAll">
-						<Offset x="0" y="0"/>
-					</Anchor>
+					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_EnableAll"/>
 				</Anchors>
 				<Scripts>
 					<OnClick>
